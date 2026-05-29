@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#12100e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MAGIXX PRO">
+<title>MAGIXX PRO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#c9a84c;--gold-light:#e8c96a;--gold-dark:#9e7c2e;
+  --bg:#12100e;--card:#1c1a16;--card2:#242018;
+  --border:#2e2a1f;--border2:#3a3020;
+  --text:#f0e8d0;--muted:#8a8070;
+  --green:#4caf7d;--green-bg:#1e3a2a;--green-border:#2a5238;
+  --red:#e05555;--red-bg:#3a1010;--red-border:#5a2020;
+  --gold-bg:#3a2a0a;--gold-border:#5a4010;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:420px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+.screen{display:none;padding-bottom:70px;min-height:calc(100vh - 60px)}
+.screen.active{display:block}
+
+/* HEADER */
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:100}
+.logo{font-size:20px;font-weight:700;color:var(--gold);letter-spacing:1.5px}
+.logo span{color:var(--text)}
+.header-actions{display:flex;gap:16px;align-items:center}
+.notif-wrap{position:relative;cursor:pointer}
+.notif-wrap i{font-size:22px;color:var(--muted)}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.menu-icon{font-size:22px;color:var(--muted);cursor:pointer}
+
+/* HERO */
+.hero{background:var(--card);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.hero-icon{width:46px;height:46px;border-radius:12px;background:var(--gold-bg);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-icon i{font-size:24px;color:var(--gold)}
+.hero-info{flex:1}
+.hero-info .label{font-size:11px;color:var(--muted);margin-bottom:2px}
+.hero-info .value{font-size:15px;font-weight:600;color:var(--text)}
+.hero-badge{background:var(--gold);color:#12100e;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px}
+
+/* SECTION TITLES */
+.section-hd{padding:16px 16px 8px;display:flex;align-items:center;gap:8px}
+.section-hd .title{font-size:17px;font-weight:600;color:var(--text)}
+.pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.pill-free{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.pill-vip{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+.pill-live{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+
+/* GRID CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 16px 8px}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s}
+.tip-card:active{transform:scale(0.97)}
+.tip-card.vip-card{border-color:var(--gold-border)}
+.tip-card.live-card2{border-color:var(--red-border)}
+.ci{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci i{font-size:18px}
+.ci.g{background:var(--green-bg)} .ci.g i{color:var(--green)}
+.ci.go{background:var(--gold-bg)} .ci.go i{color:var(--gold)}
+.ci.r{background:var(--red-bg)} .ci.r i{color:var(--red)}
+.card-txt{flex:1;min-width:0}
+.card-txt .ct{font-size:13px;font-weight:600;color:var(--text);line-height:1.2}
+.card-txt .cs{font-size:11px;color:var(--muted);margin-top:2px}
+.lock{margin-left:auto;flex-shrink:0}
+.lock i{font-size:16px;color:var(--gold)}
+
+/* VIP PROMO BANNER */
+.vip-promo{margin:8px 16px;background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.vip-promo-text strong{font-size:14px;color:var(--gold);font-weight:600;display:block}
+.vip-promo-text span{font-size:11px;color:var(--muted)}
+.btn-gold{background:var(--gold);color:#12100e;font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;border:none;cursor:pointer;transition:background .2s}
+.btn-gold:active{background:var(--gold-dark)}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:8px 16px}
+
+/* NAV BAR */
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--card);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);z-index:200}
+.nav-btn{display:flex;flex-direction:column;align-items:center;padding:8px 0 10px;cursor:pointer;gap:3px;border:none;background:none}
+.nav-btn i{font-size:22px;color:var(--muted);transition:color .2s}
+.nav-btn span{font-size:10px;color:var(--muted);transition:color .2s}
+.nav-btn.active i,.nav-btn.active span{color:var(--gold)}
+
+/* DETAIL VIEW */
+.detail-view{display:none;position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;height:100%;background:var(--bg);z-index:300;overflow-y:auto;padding-bottom:80px}
+.detail-view.open{display:block}
+.detail-header{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg)}
+.back-btn{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.back-btn i{font-size:20px;color:var(--muted)}
+.detail-title{font-size:16px;font-weight:600;color:var(--text)}
+.coupon-meta{padding:16px;background:var(--card);margin:12px 16px;border-radius:14px;border:1px solid var(--border)}
+.coupon-meta .cm-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.coupon-meta .cm-row:last-child{border-bottom:none}
+.cm-label{font-size:12px;color:var(--muted)}
+.cm-val{font-size:13px;font-weight:600;color:var(--text)}
+.cm-val.gold{color:var(--gold)}
+.match-item{background:var(--card);margin:8px 16px;border-radius:12px;border:1px solid var(--border);padding:14px}
+.match-teams{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px}
+.match-details{display:flex;gap:8px;flex-wrap:wrap}
+.match-tag{font-size:11px;padding:3px 8px;border-radius:8px;background:var(--card2);color:var(--muted)}
+.match-tag.odd{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+.analysis-box{margin:8px 16px;background:var(--card);border-radius:12px;border-left:3px solid var(--gold);padding:14px}
+.analysis-box .ab-title{font-size:12px;color:var(--gold);font-weight:600;margin-bottom:8px}
+.analysis-box p{font-size:13px;color:var(--muted);line-height:1.6}
+.stars{display:flex;gap:3px}
+.stars i{font-size:14px;color:var(--gold)}
+.stars i.empty{color:var(--border)}
+.btn-copy{width:calc(100% - 32px);margin:12px 16px;background:var(--card);border:1px solid var(--gold);color:var(--gold);font-size:14px;font-weight:600;padding:13px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-copy i{font-size:18px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:400;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--card);border-radius:20px 20px 0 0;border-top:1px solid var(--border);width:100%;max-width:420px;padding:20px 20px 36px;max-height:90vh;overflow-y:auto}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.plan-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .2s}
+.plan-card.selected{border-color:var(--gold)}
+.plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.plan-name{font-size:15px;font-weight:700;color:var(--text)}
+.plan-price{font-size:18px;font-weight:700;color:var(--gold)}
+.plan-price span{font-size:12px;color:var(--muted);font-weight:400}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:5px}
+.plan-features li{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.plan-features li i{font-size:14px;color:var(--green)}
+.pay-title{font-size:13px;color:var(--muted);margin:16px 0 10px;font-weight:600}
+.pay-btns{display:flex;gap:10px}
+.pay-btn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.pay-btn i{font-size:16px}
+.pay-btn.paypal{border-color:#003087;color:#009cde}
+.pay-btn.stripe{border-color:#635bff;color:#635bff}
+.pay-btn.mobile{border-color:#ffcc00;color:#ffcc00}
+.btn-close-modal{width:100%;padding:13px;margin-top:16px;background:var(--gold);color:#12100e;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer}
+
+/* STATS SCREEN */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 16px 8px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.stat-card .sn{font-size:26px;font-weight:700;color:var(--gold)}
+.stat-card .sl{font-size:11px;color:var(--muted);margin-top:4px}
+.sport-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.sport-row .sr-name{font-size:14px;color:var(--text);display:flex;align-items:center;gap:8px}
+.sport-row .sr-name i{font-size:18px;color:var(--gold)}
+.sr-right{text-align:right}
+.sr-pct{font-size:15px;font-weight:700;color:var(--green)}
+.sr-count{font-size:11px;color:var(--muted)}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;width:80px}
+.progress-fill{height:100%;background:var(--green);border-radius:2px}
+.hist-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.hist-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hist-icon.win{background:var(--green-bg)} .hist-icon.win i{color:var(--green);font-size:18px}
+.hist-icon.loss{background:var(--red-bg)} .hist-icon.loss i{color:var(--red);font-size:18px}
+.hist-info{flex:1}
+.hist-name{font-size:13px;font-weight:600;color:var(--text)}
+.hist-meta{font-size:11px;color:var(--muted)}
+.hist-result{font-size:13px;font-weight:700}
+.hist-result.win{color:var(--green)}
+.hist-result.loss{color:var(--red)}
+
+/* COUPON FORM */
+.form-section{padding:16px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.form-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--gold)}
+.form-input option{background:var(--card)}
+textarea.form-input{resize:vertical;min-height:80px}
+.stars-select{display:flex;gap:8px}
+.star-btn{width:40px;height:40px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.star-btn.active{background:var(--gold-bg);border-color:var(--gold)}
+.star-btn i{font-size:20px;color:var(--muted)}
+.star-btn.active i{color:var(--gold)}
+.btn-publish{width:100%;padding:15px;background:var(--gold);color:#12100e;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.success-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--green-bg);border:1px solid var(--green);color:var(--green);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:500;display:none}
+.success-toast.show{display:block}
+
+/* VIP SCREEN */
+.vip-hero{padding:20px 16px 16px;text-align:center}
+.vip-hero .vh-icon{width:60px;height:60px;border-radius:16px;background:var(--gold-bg);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.vip-hero .vh-icon i{font-size:30px;color:var(--gold)}
+.vip-hero h2{font-size:20px;font-weight:700;color:var(--text)}
+.vip-hero p{font-size:13px;color:var(--muted);margin-top:6px}
+.vip-plan-card{margin:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:border-color .2s}
+.vip-plan-card.featured{border-color:var(--gold)}
+.vip-featured-badge{background:var(--gold);color:#12100e;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:10px;display:inline-block}
+.vip-plan-name{font-size:16px;font-weight:700;color:var(--text)}
+.vip-plan-price{font-size:24px;font-weight:700;color:var(--gold);margin:6px 0}
+.vip-plan-price span{font-size:13px;color:var(--muted);font-weight:400}
+.vip-features{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.vip-features li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.vip-features li i{font-size:16px;color:var(--green)}
+.pay-section{margin:16px 16px 8px}
+.pay-section .ps-title{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.pay-grid{display:flex;gap:10px}
+.faq-item{margin:0 16px 10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer}
+.faq-q{font-size:13px;font-weight:600;color:var(--text);display:flex;justify-content:space-between;align-items:center}
+.faq-q i{color:var(--muted);font-size:16px;transition:transform .2s}
+.faq-a{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-q i{transform:rotate(180deg)}
+
+/* PROFILE SCREEN */
+.profile-hero{padding:24px 16px 16px;text-align:center}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--gold-bg);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:24px;font-weight:700;color:var(--gold)}
+.profile-name{font-size:18px;font-weight:700;color:var(--text)}
+.profile-badge{display:inline-block;margin-top:6px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.ps-item{background:var(--bg);padding:14px 8px;text-align:center}
+.ps-item .psn{font-size:20px;font-weight:700;color:var(--gold)}
+.ps-item .psl{font-size:11px;color:var(--muted);margin-top:3px}
+.settings-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer}
+.settings-item i.si{font-size:20px;color:var(--muted)}
+.settings-item .s-label{flex:1;font-size:14px;color:var(--text)}
+.settings-item i.arr{font-size:16px;color:var(--muted)}
+.toggle{width:44px;height:24px;background:var(--border2);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;border:none;outline:none}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s}
+.toggle.on::after{left:23px}
+.logout-btn{margin:16px;width:calc(100% - 32px);padding:13px;background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);font-size:14px;font-weight:700;border-radius:12px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+  <div class="logo">MAGIXX <span>PRO</span></div>
+  <div class="header-actions">
+    <div class="notif-wrap" onclick="showNotif()">
+      <i class="ti ti-bell"></i>
+      <div class="notif-badge" id="notifBadge">3</div>
+    </div>
+    <i class="ti ti-menu-2 menu-icon" onclick="navTo('vip')"></i>
+  </div>
+</div>
+
+<!-- SUCCESS TOAST -->
+<div class="success-toast" id="toast"><i class="ti ti-check"></i> Coupon publié avec succès !</div>
+
+<!-- ===================== SCREEN: HOME ===================== -->
+<div class="screen active" id="screen-home">
+  <div class="hero">
+    <div class="hero-icon"><i class="ti ti-trophy"></i></div>
+    <div class="hero-info">
+      <div class="label">Taux de réussite · 30 derniers jours</div>
+      <div class="value">87% de pronostics gagnants</div>
+    </div>
+    <div class="hero-badge">LIVE</div>
+  </div>
+
+  <!-- FREE -->
+  <div class="section-hd">
+    <div class="title">Free</div>
+    <div class="pill pill-free">Gratuit</div>
+  </div>
+  <div class="grid2">
+    <div class="tip-card" onclick="openDetail('tips-jour')">
+      <div class="ci g"><i class="ti ti-calendar-event"></i></div>
+      <div class="card-txt"><div class="ct">Tips du jour</div><div class="cs">3 sélections</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('football')">
+      <div class="ci g"><i class="ti ti-ball-football"></i></div>
+      <div class="card-txt"><div class="ct">Football Tips</div><div class="cs">Ligue 1 · CL</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('over-under')">
+      <div class="ci g"><i class="ti ti-chart-line"></i></div>
+      <div class="card-txt"><div class="ct">Over/Under</div><div class="cs">5 matchs</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('single')">
+      <div class="ci g"><i class="ti ti-target"></i></div>
+      <div class="card-txt"><div class="ct">Single Tips</div><div class="cs">Cotes simples</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('odds20')">
+      <div class="ci g"><i class="ti ti-flame"></i></div>
+      <div class="card-txt"><div class="ct">Daily 20+ Odds</div><div class="cs">Grosse cote</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('basketball')">
+      <div class="ci g"><i class="ti ti-ball-basketball"></i></div>
+      <div class="card-txt"><div class="ct">Basketball</div><div class="cs">NBA · MPBL</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('tennis')">
+      <div class="ci g"><i class="ti ti-tennis"></i></div>
+      <div class="card-txt"><div class="ct">Tennis</div><div class="cs">ATP · WTA</div></div>
+    </div>
+    <div class="tip-card" onclick="openDetail('surprise')">
+      <div class="ci g"><i class="ti ti-gift"></i></div>
+      <div class="card-txt"><div class="ct">Bonus Surprise</div><div class="cs">Offre spéciale</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- VIP -->
+  <div class="section-hd">
+    <div class="title">VIP</div>
+    <div class="pill pill-vip">Abonnement</div>
+  </div>
+  <div class="grid2">
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-target"></i></div>
+      <div class="card-txt"><div class="ct">Score Exact</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-arrows-exchange"></i></div>
+      <div class="card-txt"><div class="ct">HT-FT VIP</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-star"></i></div>
+      <div class="card-txt"><div class="ct">Multi 50+ Odds</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-bolt"></i></div>
+      <div class="card-txt"><div class="ct">Multi 10+ Odds</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-award"></i></div>
+      <div class="card-txt"><div class="ct">Special VIP</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-lock-open"></i></div>
+      <div class="card-txt"><div class="ct">Fixed VIP</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-stack-2"></i></div>
+      <div class="card-txt"><div class="ct">Mixed VIP</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+    <div class="tip-card vip-card" onclick="openVipLock()">
+      <div class="ci go"><i class="ti ti-diamond"></i></div>
+      <div class="card-txt"><div class="ct">Single VIP</div><div class="cs">VIP</div></div>
+      <div class="lock"><i class="ti ti-lock"></i></div>
+    </div>
+  </div>
+
+  <div class="vip-promo">
+    <div class="vip-promo-text">
+      <strong>Passer en VIP</strong>
+      <span>Accès illimité · Analyses IA</span>
+    </div>
+    <button class="btn-gold" onclick="openVipLock()">S'abonner</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- LIVE -->
+  <div class="section-hd">
+    <div class="title">Live</div>
+    <div class="pill pill-live">En direct</div>
+  </div>
+  <div style="padding:0 16px 20px">
+    <div class="tip-card live-card2" onclick="openDetail('live')">
+      <div class="ci r"><i class="ti ti-live-view"></i></div>
+      <div class="card-txt"><div class="ct">Live Tips</div><div class="cs">Matchs en cours · Analyse temps réel</div></div>
+      <div style="background:var(--red);width:8px;height:8px;border-radius:50%;flex-shrink:0"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: STATS ===================== -->
+<div class="screen" id="screen-stats">
+  <div class="section-hd"><div class="title">Tableau de bord</div></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="sn">127</div><div class="sl">Total paris</div></div>
+    <div class="stat-card"><div class="sn" style="color:var(--green)">89</div><div class="sl">Gagnés</div></div>
+    <div class="stat-card"><div class="sn" style="color:var(--red)">38</div><div class="sl">Perdus</div></div>
+    <div class="stat-card"><div class="sn">+34%</div><div class="sl">ROI global</div></div>
+  </div>
+  <div class="divider"></div>
+  <div class="section-hd"><div class="title">Par sport</div></div>
+  <div class="sport-row">
+    <div class="sr-name"><i class="ti ti-ball-football"></i>Football</div>
+    <div class="sr-right">
+      <div class="sr-pct">91%</div>
+      <div class="sr-count">54 paris</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:91%"></div></div>
+    </div>
+  </div>
+  <div class="sport-row">
+    <div class="sr-name"><i class="ti ti-ball-basketball"></i>Basketball</div>
+    <div class="sr-right">
+      <div class="sr-pct">84%</div>
+      <div class="sr-count">43 paris</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:84%"></div></div>
+    </div>
+  </div>
+  <div class="sport-row">
+    <div class="sr-name"><i class="ti ti-tennis"></i>Tennis</div>
+    <div class="sr-right">
+      <div class="sr-pct">80%</div>
+      <div class="sr-count">30 paris</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section-hd"><div class="title">Derniers coupons</div></div>
+  <div class="hist-item">
+    <div class="hist-icon win"><i class="ti ti-check"></i></div>
+    <div class="hist-info"><div class="hist-name">Tips du jour — Football</div><div class="hist-meta">28 mai · Cote 3.45</div></div>
+    <div class="hist-result win">+245€</div>
+  </div>
+  <div class="hist-item">
+    <div class="hist-icon win"><i class="ti ti-check"></i></div>
+    <div class="hist-info"><div class="hist-name">Basketball NBA Multi</div><div class="hist-meta">27 mai · Cote 5.20</div></div>
+    <div class="hist-result win">+420€</div>
+  </div>
+  <div class="hist-item">
+    <div class="hist-icon loss"><i class="ti ti-x"></i></div>
+    <div class="hist-info"><div class="hist-name">Over/Under Serie A</div><div class="hist-meta">26 mai · Cote 1.85</div></div>
+    <div class="hist-result loss">-50€</div>
+  </div>
+  <div class="hist-item">
+    <div class="hist-icon win"><i class="ti ti-check"></i></div>
+    <div class="hist-info"><div class="hist-name">Single Tips — Ligue 1</div><div class="hist-meta">25 mai · Cote 2.10</div></div>
+    <div class="hist-result win">+110€</div>
+  </div>
+  <div class="hist-item">
+    <div class="hist-icon win"><i class="ti ti-check"></i></div>
+    <div class="hist-info"><div class="hist-name">Tennis WTA — Roland Garros</div><div class="hist-meta">24 mai · Cote 1.65</div></div>
+    <div class="hist-result win">+65€</div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: COUPON ===================== -->
+<div class="screen" id="screen-coupon">
+  <div class="section-hd"><div class="title">Créer un coupon</div></div>
+  <div class="form-section">
+    <div class="form-group">
+      <label class="form-label">Titre du coupon</label>
+      <input type="text" class="form-input" id="couponTitle" placeholder="Ex: Tips Football du jour">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sport</label>
+      <select class="form-input" id="couponSport">
+        <option value="">Sélectionner un sport</option>
+        <option>Football</option>
+        <option>Basketball</option>
+        <option>Tennis</option>
+        <option>Rugby</option>
+        <option>Handball</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Catégorie</label>
+      <select class="form-input" id="couponCat">
+        <option value="free">Free (Gratuit)</option>
+        <option value="vip">VIP (Abonnés)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Match principal</label>
+      <input type="text" class="form-input" id="couponMatch" placeholder="Ex: PSG vs Lyon">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Marché</label>
+      <select class="form-input" id="couponMarket">
+        <option>Money Line (ML)</option>
+        <option>Over/Under</option>
+        <option>Spread / Handicap</option>
+        <option>Score Exact</option>
+        <option>HT/FT</option>
+        <option>BTTS (Les deux équipes marquent)</option>
+        <option>Total buts</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Cote totale</label>
+      <input type="number" class="form-input" id="couponOdd" placeholder="Ex: 2.45" step="0.01" min="1">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Niveau de confiance</label>
+      <div class="stars-select" id="starsSelect">
+        <div class="star-btn active" data-star="1" onclick="setStar(1)"><i class="ti ti-star"></i></div>
+        <div class="star-btn" data-star="2" onclick="setStar(2)"><i class="ti ti-star"></i></div>
+        <div class="star-btn" data-star="3" onclick="setStar(3)"><i class="ti ti-star"></i></div>
+        <div class="star-btn" data-star="4" onclick="setStar(4)"><i class="ti ti-star"></i></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Analyse</label>
+      <textarea class="form-input" id="couponAnalysis" placeholder="Explique ta sélection, les stats clés, le raisonnement..."></textarea>
+    </div>
+    <button class="btn-publish" onclick="publishCoupon()">
+      <i class="ti ti-send"></i> Publier le coupon
+    </button>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: VIP ===================== -->
+<div class="screen" id="screen-vip">
+  <div class="vip-hero">
+    <div class="vh-icon"><i class="ti ti-crown"></i></div>
+    <h2>MAGIXX VIP</h2>
+    <p>Accède aux meilleures analyses et coupons exclusifs</p>
+  </div>
+
+  <div class="vip-plan-card" onclick="selectPlan('starter')">
+    <div class="vip-plan-name">Starter VIP</div>
+    <div class="vip-plan-price">9.99€ <span>/ mois</span></div>
+    <ul class="vip-features">
+      <li><i class="ti ti-check"></i>Score Exact VIP</li>
+      <li><i class="ti ti-check"></i>HT-FT VIP</li>
+      <li><i class="ti ti-check"></i>Multi 10+ Odds VIP</li>
+      <li><i class="ti ti-check"></i>Single VIP</li>
+    </ul>
+  </div>
+
+  <div class="vip-plan-card featured" onclick="selectPlan('premium')">
+    <div class="vip-featured-badge">RECOMMANDÉ</div>
+    <div class="vip-plan-name">Premium VIP</div>
+    <div class="vip-plan-price">19.99€ <span>/ mois</span></div>
+    <ul class="vip-features">
+      <li><i class="ti ti-check"></i>Tout le Starter VIP</li>
+      <li><i class="ti ti-check"></i>Fixed VIP · Multi 50+ Odds</li>
+      <li><i class="ti ti-check"></i>Mixed VIP · Special VIP</li>
+      <li><i class="ti ti-check"></i>Live Tips en direct</li>
+      <li><i class="ti ti-check"></i>Analyses IA personnalisées</li>
+    </ul>
+  </div>
+
+  <div class="pay-section">
+    <div class="ps-title">Choisir le paiement</div>
+    <div class="pay-grid">
+      <button class="pay-btn paypal" onclick="payWith('PayPal')"><i class="ti ti-brand-paypal"></i>PayPal</button>
+      <button class="pay-btn stripe" onclick="payWith('Stripe')"><i class="ti ti-credit-card"></i>Stripe</button>
+      <button class="pay-btn mobile" onclick="payWith('Mobile Money')"><i class="ti ti-device-mobile"></i>Mobile</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-hd"><div class="title">FAQ</div></div>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Comment annuler mon abonnement ? <i class="ti ti-chevron-down"></i></div>
+    <div class="faq-a">Tu peux annuler à tout moment depuis ton profil dans Paramètres > Abonnement. L'accès reste actif jusqu'à la fin de la période payée.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Les paiements sont-ils sécurisés ? <i class="ti ti-chevron-down"></i></div>
+    <div class="faq-a">Oui. Tous les paiements sont traités par Stripe, PayPal ou Mobile Money selon ton choix — des plateformes sécurisées et certifiées. MAGIXX PRO ne stocke jamais tes coordonnées bancaires.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)" style="margin-bottom:20px">
+    <div class="faq-q">Puis-je essayer gratuitement ? <i class="ti ti-chevron-down"></i></div>
+    <div class="faq-a">Oui ! La section Free donne accès à des coupons quotidiens sans inscription. L'abonnement VIP débloque les coupons premium et les analyses IA exclusives.</div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: PROFILE ===================== -->
+<div class="screen" id="screen-profile">
+  <div class="profile-hero">
+    <div class="avatar">SP</div>
+    <div class="profile-name">Stephen Angui</div>
+    <div class="profile-badge" id="profileBadge">FREE</div>
+  </div>
+  <div class="profile-stats">
+    <div class="ps-item"><div class="psn">34</div><div class="psl">Paris joués</div></div>
+    <div class="ps-item"><div class="psn">28</div><div class="psl">Gagnés</div></div>
+    <div class="ps-item"><div class="psn">+41%</div><div class="psl">Mon ROI</div></div>
+  </div>
+  <div class="settings-item" onclick="toggleNotif(this)">
+    <i class="ti ti-bell si"></i>
+    <div class="s-label">Notifications</div>
+    <button class="toggle on" id="notifToggle"></button>
+  </div>
+  <div class="settings-item">
+    <i class="ti ti-world si"></i>
+    <div class="s-label">Langue</div>
+    <span style="font-size:13px;color:var(--muted)">Français</span>
+    <i class="ti ti-chevron-right arr"></i>
+  </div>
+  <div class="settings-item" onclick="toggleVipSim()">
+    <i class="ti ti-crown si"></i>
+    <div class="s-label">Simuler abonnement VIP</div>
+    <button class="toggle" id="vipToggle"></button>
+  </div>
+  <div class="settings-item">
+    <i class="ti ti-shield-check si"></i>
+    <div class="s-label">Confidentialité</div>
+    <i class="ti ti-chevron-right arr"></i>
+  </div>
+  <div class="settings-item">
+    <i class="ti ti-help-circle si"></i>
+    <div class="s-label">Aide & Support</div>
+    <i class="ti ti-chevron-right arr"></i>
+  </div>
+  <button class="logout-btn"><i class="ti ti-logout"></i> Déconnexion</button>
+</div>
+
+<!-- ===================== DETAIL VIEW ===================== -->
+<div class="detail-view" id="detailView">
+  <div class="detail-header">
+    <div class="back-btn" onclick="closeDetail()"><i class="ti ti-arrow-left"></i></div>
+    <div class="detail-title" id="detailTitle">Tips du jour</div>
+  </div>
+  <div id="detailBody"></div>
+</div>
+
+<!-- ===================== MODAL VIP LOCK ===================== -->
+<div class="modal-overlay" id="vipModal">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Contenu VIP</div>
+    <div class="modal-sub">Abonne-toi pour accéder à ce coupon exclusif</div>
+    <div class="plan-card selected" id="modalPlan1" onclick="selectModalPlan('starter')">
+      <div class="plan-header">
+        <div class="plan-name">Starter VIP</div>
+        <div class="plan-price">9.99€<span>/mois</span></div>
+      </div>
+      <ul class="plan-features">
+        <li><i class="ti ti-check"></i>Score Exact, HT-FT, Multi 10+</li>
+        <li><i class="ti ti-check"></i>Single VIP</li>
+      </ul>
+    </div>
+    <div class="plan-card" id="modalPlan2" onclick="selectModalPlan('premium')">
+      <div class="plan-header">
+        <div class="plan-name">Premium VIP</div>
+        <div class="plan-price">19.99€<span>/mois</span></div>
+      </div>
+      <ul class="plan-features">
+        <li><i class="ti ti-check"></i>Accès total + Fixed VIP</li>
+        <li><i class="ti ti-check"></i>Live Tips + Analyses IA</li>
+      </ul>
+    </div>
+    <div class="pay-title">Payer avec</div>
+    <div class="pay-btns">
+      <button class="pay-btn paypal" onclick="payWith('PayPal')"><i class="ti ti-brand-paypal"></i>PayPal</button>
+      <button class="pay-btn stripe" onclick="payWith('Stripe')"><i class="ti ti-credit-card"></i>Stripe</button>
+      <button class="pay-btn mobile" onclick="payWith('Mobile Money')"><i class="ti ti-device-mobile"></i>Mobile</button>
+    </div>
+    <button class="btn-close-modal" onclick="closeVipModal()">Fermer</button>
+  </div>
+</div>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <button class="nav-btn active" onclick="navTo('home')"><i class="ti ti-home"></i><span>Home</span></button>
+  <button class="nav-btn" onclick="navTo('stats')"><i class="ti ti-chart-bar"></i><span>Stats</span></button>
+  <button class="nav-btn" onclick="navTo('coupon')"><i class="ti ti-plus"></i><span>Coupon</span></button>
+  <button class="nav-btn" onclick="navTo('vip')"><i class="ti ti-crown"></i><span>VIP</span></button>
+  <button class="nav-btn" onclick="navTo('profile')"><i class="ti ti-user"></i><span>Profil</span></button>
+</nav>
+
+<script>
+var isVip=false,selectedStar=1,selectedPlan='starter';
+var coupons={
+  'tips-jour':{title:'Tips du jour',cat:'free',stars:4,odd:'3.45',analysis:'Sélection du jour basée sur la forme récente et les stats avancées. PSG domine à domicile avec 2.8 buts/match, Real Madrid favori logique, et Gensan en grande forme (9 victoires de suite).',matches:[{teams:'PSG vs Lyon',market:'Over 2.5 buts',odd:'1.72',competition:'Ligue 1'},{teams:'Real Madrid vs Valladolid',market:'Real Madrid ML',odd:'1.45',competition:'La Liga'},{teams:'Gensan Warriors vs Pasay',market:'Gensan -5.5',odd:'1.88',competition:'MPBL'}]},
+  'football':{title:'Football Tips',cat:'free',stars:3,odd:'4.20',analysis:'Analyse des matchs Ligue 1 et Serie A. Les équipes à domicile ont un avantage marqué cette semaine.',matches:[{teams:'Lyon vs Marseille',market:'BTTS (Les deux marquent)',odd:'1.65',competition:'Ligue 1'},{teams:'Juventus vs Inter Milan',market:'Under 2.5',odd:'1.90',competition:'Serie A'},{teams:'Barcelona vs Getafe',market:'Barcelona ML',odd:'1.30',competition:'La Liga'}]},
+  'over-under':{title:'Over/Under Tips',cat:'free',stars:3,odd:'5.10',analysis:'5 matchs à fort potentiel offensif sélectionnés selon le pace, les stats défensives et l\'historique des confrontations.',matches:[{teams:'Manchester City vs Arsenal',market:'Over 2.5',odd:'1.55',competition:'Premier League'},{teams:'Bayern vs Dortmund',market:'Over 3.5',odd:'2.10',competition:'Bundesliga'},{teams:'Napoli vs Roma',market:'Over 2.5',odd:'1.70',competition:'Serie A'}]},
+  'single':{title:'Single Tips',cat:'free',stars:4,odd:'1.88',analysis:'Pari simple haute confiance sur Gensan Warriors. 9 victoires de suite, jouent à domicile, adversaire en mauvaise forme.',matches:[{teams:'Gensan Warriors vs Valenzuela',market:'Gensan Warriors ML',odd:'1.88',competition:'MPBL Philippines'}]},
+  'odds20':{title:'Daily 20+ Odds',cat:'free',stars:2,odd:'24.50',analysis:'Combiné 4 matchs à grosse cote. Risque élevé mais potentiel de gain important. Mise recommandée : 1% du bankroll maximum.',matches:[{teams:'PSG vs Lyon',market:'Score exact 2-1',odd:'6.50',competition:'Ligue 1'},{teams:'Real Madrid vs Barca',market:'Score exact 1-0',odd:'7.00',competition:'El Clasico'},{teams:'Lakers vs Celtics',market:'Lakers ML',odd:'2.20',competition:'NBA'},{teams:'Federer vs Nadal',market:'Federer en 2 sets',odd:'3.50',competition:'ATP'}]},
+  'basketball':{title:'Basketball Tips',cat:'free',stars:4,odd:'2.75',analysis:'Sélection NBA et MPBL. Gensan Warriors en feu, Northside Wizards favorites ce soir. Analyse basée sur le pace, ORtg/DRtg et les matchups.',matches:[{teams:'Gensan Warriors vs Cebu Greats',market:'Over 168.5',odd:'1.28',competition:'MPBL'},{teams:'Mackay Meteorettes vs Northside Wizards',market:'Northside Wizards ML',odd:'1.62',competition:'NBL1 Australia'},{teams:'OKC Thunder vs Indiana Pacers',market:'Thunder ML',odd:'1.55',competition:'NBA'}]},
+  'tennis':{title:'Tennis Tips',cat:'free',stars:3,odd:'2.90',analysis:'Roland Garros en cours. Analyse des surfaces, stats sur terre battue et forme récente.',matches:[{teams:'Djokovic vs Alcaraz',market:'Alcaraz ML',odd:'1.85',competition:'Roland Garros'},{teams:'Swiatek vs Gauff',market:'Swiatek en 2 sets',odd:'1.65',competition:'Roland Garros WTA'}]},
+  'surprise':{title:'Bonus Surprise',cat:'free',stars:3,odd:'6.80',analysis:'Coupon surprise du jour — une combinaison spéciale identifiée par notre algorithme d\'analyse.',matches:[{teams:'Inter Milan vs AC Milan',market:'Over 2.5 + BTTS',odd:'2.40',competition:'Serie A'},{teams:'Cleveland Cavaliers vs Miami Heat',market:'Cavaliers -4.5',odd:'1.90',competition:'NBA'},{teams:'Iga Swiatek vs Mirra Andreeva',market:'Swiatek ML',odd:'1.35',competition:'WTA'}]},
+  'live':{title:'Live Tips',cat:'free',stars:4,odd:'1.72',analysis:'Analyse en temps réel du match en cours. Mount Gambier mène 43-15 à la mi-temps. Under total fortement recommandé — garbage time assuré.',matches:[{teams:'Mount Gambier vs Ringwood Hawks',market:'Under 133.5',odd:'1.98',competition:'NBL1 Women'},{teams:'Gensan Warriors vs Cebu Greats',market:'Gensan ML LIVE',odd:'1.55',competition:'MPBL LIVE'}]}
+};
+function navTo(s){
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+  var map={home:0,stats:1,coupon:2,vip:3,profile:4};
+  document.querySelectorAll('.nav-btn')[map[s]].classList.add('active');
+  window.scrollTo(0,0);
+}
+function openDetail(key){
+  var c=coupons[key];
+  if(!c) return;
+  document.getElementById('detailTitle').textContent=c.title;
+  var stars='';
+  for(var i=1;i<=4;i++) stars+='<i class="ti ti-star'+(i<=c.stars?'':'-filled empty')+'" style="font-size:16px;color:'+(i<=c.stars?'var(--gold)':'var(--border)')+'"></i>';
+  var matches='';
+  c.matches.forEach(function(m){
+    matches+='<div class="match-item"><div class="match-teams">'+m.teams+'</div><div class="match-details"><span class="match-tag">'+m.competition+'</span><span class="match-tag">'+m.market+'</span><span class="match-tag odd">Cote '+m.odd+'</span></div></div>';
+  });
+  document.getElementById('detailBody').innerHTML=
+    '<div class="coupon-meta"><div class="cm-row"><span class="cm-label">Catégorie</span><span class="cm-val">'+(c.cat==='vip'?'VIP':'Free')+'</span></div><div class="cm-row"><span class="cm-label">Cote totale</span><span class="cm-val gold">'+c.odd+'</span></div><div class="cm-row"><span class="cm-label">Confiance</span><span class="cm-val"><div class="stars">'+stars+'</div></span></div></div>'+
+    matches+
+    '<div class="analysis-box"><div class="ab-title">Analyse</div><p>'+c.analysis+'</p></div>'+
+    '<button class="btn-copy" onclick="copyShare()"><i class="ti ti-share"></i> Partager ce coupon</button>';
+  document.getElementById('detailView').classList.add('open');
+}
+function closeDetail(){document.getElementById('detailView').classList.remove('open');}
+function copyShare(){
+  var t=document.getElementById('detailTitle').textContent;
+  if(navigator.share){navigator.share({title:'MAGIXX PRO - '+t,text:'Découvrez ce coupon sur MAGIXX PRO !'});}
+  else{showToast('Lien copié !');}
+}
+function openVipLock(){
+  if(isVip){openDetail('tips-jour');return;}
+  document.getElementById('vipModal').classList.add('open');
+}
+function closeVipModal(){document.getElementById('vipModal').classList.remove('open');}
+function selectModalPlan(p){
+  selectedPlan=p;
+  document.getElementById('modalPlan1').classList.toggle('selected',p==='starter');
+  document.getElementById('modalPlan2').classList.toggle('selected',p==='premium');
+}
+function selectPlan(p){selectedPlan=p;}
+function payWith(method){
+  closeVipModal();
+  showToast('Redirection vers '+method+'...');
+  setTimeout(function(){showToast('Fonctionnalité paiement à connecter.');},2000);
+}
+function toggleFaq(el){el.classList.toggle('open');}
+function setStar(n){
+  selectedStar=n;
+  document.querySelectorAll('.star-btn').forEach(function(b){
+    var s=parseInt(b.dataset.star);
+    b.classList.toggle('active',s<=n);
+  });
+}
+function publishCoupon(){
+  var t=document.getElementById('couponTitle').value;
+  var m=document.getElementById('couponMatch').value;
+  if(!t||!m){showToast('Remplis au moins le titre et le match.');return;}
+  document.getElementById('couponTitle').value='';
+  document.getElementById('couponMatch').value='';
+  document.getElementById('couponOdd').value='';
+  document.getElementById('couponAnalysis').value='';
+  setStar(1);
+  showToast('Coupon publié avec succès !');
+  setTimeout(function(){navTo('home');},1500);
+}
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2500);
+}
+function showNotif(){
+  document.getElementById('notifBadge').textContent='0';
+  showToast('Aucune nouvelle notification.');
+}
+function toggleNotif(row){
+  var btn=document.getElementById('notifToggle');
+  btn.classList.toggle('on');
+}
+function toggleVipSim(){
+  isVip=!isVip;
+  var btn=document.getElementById('vipToggle');
+  btn.classList.toggle('on',isVip);
+  var badge=document.getElementById('profileBadge');
+  badge.textContent=isVip?'PREMIUM VIP':'FREE';
+  badge.style.background=isVip?'var(--gold-bg)':'var(--card2)';
+  badge.style.color=isVip?'var(--gold)':'var(--muted)';
+  badge.style.borderColor=isVip?'var(--gold-border)':'var(--border)';
+  showToast(isVip?'Mode VIP activé !':'Mode Free activé.');
+  if(isVip){
+    document.querySelectorAll('.vip-card .lock').forEach(function(l){l.innerHTML='<i class="ti ti-lock-open" style="font-size:16px;color:var(--green)"></i>';});
+    document.querySelectorAll('.vip-card').forEach(function(c){
+      c.onclick=function(){openDetail('tips-jour');};
+    });
+  } else {
+    document.querySelectorAll('.vip-card .lock').forEach(function(l){l.innerHTML='<i class="ti ti-lock" style="font-size:16px;color:var(--gold)"></i>';});
+    document.querySelectorAll('.vip-card').forEach(function(c){c.onclick=openVipLock;});
+  }
+}
+</script>
+<script>if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").then(()=>console.log("SW registered")).catch(e=>console.log("SW error",e));}</script>
+</body>
+</html>
